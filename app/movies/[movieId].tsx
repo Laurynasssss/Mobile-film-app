@@ -7,7 +7,7 @@ import { saveToWatched, isMovieInWatchedList } from "@/lib/supabasefunctions";
 import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
-
+//a
 interface Genre {
   id: number;
   name: string;

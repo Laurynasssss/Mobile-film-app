@@ -4,12 +4,12 @@ import {
   Text, 
   FlatList, 
   Image, 
-  StyleSheet, 
   TouchableOpacity 
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { searchstyles } from '@/styles/searchstyles';
 
 interface Movie {
   id: number;
@@ -31,17 +31,17 @@ const SearchResultsScreen = () => {
 
   const renderMovieItem = ({ item }: { item: Movie }) => (
     <TouchableOpacity 
-      style={styles.movieItem}
+      style={searchstyles.movieItem}
       onPress={() => router.push(`/movies/${item.id}`)}
     >
       <Image 
         source={{ uri: `https://image.tmdb.org/t/p/w200${item.poster_path}` }}
-        style={styles.moviePoster}
+        style={searchstyles.moviePoster}
         resizeMode="cover"
       />
-      <View style={styles.movieDetails}>
-        <Text style={styles.movieTitle}>{item.title}</Text>
-        <Text style={styles.movieOverview} numberOfLines={3}>
+      <View style={searchstyles.movieDetails}>
+        <Text style={searchstyles.movieTitle}>{item.title}</Text>
+        <Text style={searchstyles.movieOverview} numberOfLines={3}>
           {item.overview}
         </Text>
       </View>
@@ -49,12 +49,12 @@ const SearchResultsScreen = () => {
   );
 
   return (
-    <LinearGradient colors={['#F7E6CA', '#D9BBB1']} style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+    <LinearGradient colors={['#F7E6CA', '#D9BBB1']} style={searchstyles.container}>
+      <View style={searchstyles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={searchstyles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#8A7D6D" />
         </TouchableOpacity>
-        <Text style={styles.searchTitle}>Results for "{query}"</Text>
+        <Text style={searchstyles.searchTitle}>Results for "{query}"</Text>
       </View>
 
       <FlatList
@@ -62,64 +62,11 @@ const SearchResultsScreen = () => {
         renderItem={renderMovieItem}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={
-          <Text style={styles.emptyState}>No movies found</Text>
+          <Text style={searchstyles.emptyState}>No movies found</Text>
         }
       />
     </LinearGradient>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "stretch",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 15,
-    backgroundColor: "transparent",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E6D5C7",
-  },
-  backButton: {
-    marginRight: 10,
-  },
-  searchTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#8A7D6D",
-  },
-  movieItem: {
-    flexDirection: "row",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E6D5C7",
-  },
-  moviePoster: {
-    width: 100,
-    height: 150,
-    borderRadius: 8,
-  },
-  movieDetails: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  movieTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#8A7D6D",
-  },
-  movieOverview: {
-    color: "#8A7D6D",
-    marginTop: 5,
-  },
-  emptyState: {
-    textAlign: "center",
-    marginTop: 50,
-    fontSize: 18,
-    color: "#8A7D6D",
-  },
-});
 
 export default SearchResultsScreen;

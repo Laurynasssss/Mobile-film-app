@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Button } from '@rneui/themed';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { supabase } from '@/lib/supabse';
 import { fetchUserData, updateUserData, uploadProfilePicture } from '@/lib/supabasefunctions';
+import { profilestyles } from '@/styles/profileinfostyles';
 
 const ProfileSettings = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -97,44 +98,44 @@ const ProfileSettings = () => {
 
   if (loading) {
     return (
-      <LinearGradient colors={['#F7E6CA', '#D9BBB1']} style={[styles.container, styles.loadingContainer]}>
+      <LinearGradient colors={['#F7E6CA', '#D9BBB1']} style={[profilestyles.container, profilestyles.loadingContainer]}>
         <ActivityIndicator size="large" color="#8A7D6D" />
-        <Text style={styles.loadingText}>Loading profile data...</Text>
+        <Text style={profilestyles.loadingText}>Loading profile data...</Text>
       </LinearGradient>
     );
   }
 
   return (
-    <LinearGradient colors={['#F7E6CA', '#D9BBB1']} style={styles.container}>
-      <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+    <LinearGradient colors={['#F7E6CA', '#D9BBB1']} style={profilestyles.container}>
+      <TouchableOpacity onPress={pickImage} style={profilestyles.imageContainer}>
         {profileImage ? (
-          <Image source={{ uri: profileImage }} style={styles.profileImage} />
+          <Image source={{ uri: profileImage }} style={profilestyles.profileImage} />
         ) : (
           <Icon name="user-circle" size={80} color="#8A7D6D" />
         )}
-        <View style={styles.editIconContainer}>
+        <View style={profilestyles.editIconContainer}>
           <Icon name="camera" size={16} color="#FFFFFF" />
         </View>
       </TouchableOpacity>
 
-      <Text style={styles.sectionTitle}>Profile Information</Text>
+      <Text style={profilestyles.sectionTitle}>Profile Information</Text>
       
       <TextInput 
-        style={styles.input} 
+        style={profilestyles.input} 
         placeholder="Username" 
         value={name} 
         onChangeText={setName} 
       />
       
       <TextInput 
-        style={styles.input} 
+        style={profilestyles.input} 
         placeholder="Favorite Movie" 
         value={favoriteMovie} 
         onChangeText={setFavoriteMovie} 
       />
       
       <TextInput 
-        style={styles.input} 
+        style={profilestyles.input} 
         placeholder="Email" 
         value={email} 
         onChangeText={setEmail} 
@@ -142,104 +143,18 @@ const ProfileSettings = () => {
         editable={false} // Email from auth cannot be changed here
       />
       
-      <Text style={styles.hint}>Email cannot be changed here</Text>
+      <Text style={profilestyles.hint}>Email cannot be changed here</Text>
       
       <Button 
         title={saving ? "Saving..." : "Save Changes"} 
         onPress={handleSave} 
-        buttonStyle={styles.saveButton} 
-        titleStyle={styles.saveButtonText}
+        buttonStyle={profilestyles.saveButton} 
+        titleStyle={profilestyles.saveButtonText}
         disabled={saving}
         loading={saving}
       />
     </LinearGradient>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 20,
-  },
-  loadingContainer: {
-    justifyContent: 'center',
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#614C3E',
-    fontSize: 16,
-  },
-  imageContainer: {
-    marginBottom: 20,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    overflow: 'hidden',
-    backgroundColor: '#E6D5C9',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  editIconContainer: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: '#8A7D6D',
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#F7E6CA',
-  },
-  sectionTitle: {
-    alignSelf: 'flex-start',
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#614C3E',
-    marginBottom: 10,
-    marginLeft: 20,
-  },
-  input: {
-    width: '90%',
-    backgroundColor: '#FFFFFF',
-    padding: 12,
-    marginVertical: 10,
-    borderRadius: 10,
-    shadowColor: '#8A7D6D',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-    fontSize: 16,
-  },
-  hint: {
-    color: '#8A7D6D',
-    fontSize: 12,
-    alignSelf: 'flex-start',
-    marginLeft: 25,
-    marginTop: -5,
-    fontStyle: 'italic',
-  },
-  saveButton: {
-    backgroundColor: '#D9BBB1',
-    borderRadius: 10,
-    paddingHorizontal: 30,
-    paddingVertical: 12,
-    marginTop: 20,
-  },
-  saveButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-});
 
 export default ProfileSettings;

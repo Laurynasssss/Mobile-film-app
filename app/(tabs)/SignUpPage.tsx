@@ -15,7 +15,7 @@ export default function SignUp(): React.ReactElement {
   const [favoriteMovie, setFavoriteMovie] = useState<string>('');
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+//.
   async function handleSignUp(): Promise<void> {
     try {
       setLoading(true);
